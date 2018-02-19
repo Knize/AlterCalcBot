@@ -18,7 +18,7 @@ axios.post('https://api.telegram.org/bot' + telegram_token +
         console.log('Error :', err);
     });
 
-app.post('/', function (req, res) {
+app.post('/new-message', function (req, res) {
     const {message} = req.body;
     console.log('Request processing start.');
 
