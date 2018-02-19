@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 axios.post('https://api.telegram.org/bot' + telegram_token +
-    ' /setWebhook?https://frozen-atoll-64089.herokuapp.com/')
+    '/setWebhook?https://frozen-atoll-64089.herokuapp.com/')
     .then(response => {
         console.log("Webhook been set.")
     })
