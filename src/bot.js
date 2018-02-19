@@ -8,8 +8,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+console.log('Token: ' + token);
 
-axios.post('https://api.telegram.org/bot' + token + ' /setWebhook?https://frozen-atoll-64089.herokuapp.com/');
+//axios.post('https://api.telegram.org/bot' + token + ' /setWebhook?https://frozen-atoll-64089.herokuapp.com/');
 
 app.post('/', function (req, res) {
     const {message} = req.body;
