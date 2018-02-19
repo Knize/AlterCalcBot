@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-axios.post('https://api.telegram.org/bot' + token + ' /setWebhook?https://frozen-atoll-64089.herokuapp.com/');
+axios.post('https://api.telegram.org/bot' + telegram_token + ' /setWebhook?https://frozen-atoll-64089.herokuapp.com/');
 
 app.post('/', function (req, res) {
     const {message} = req.body;
