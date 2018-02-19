@@ -2,7 +2,7 @@ const token = '510256795:AAFNtQ5iwkpAvOfPnCVSbOIqlc0CIh_xGoQ';
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const axios = require('axios')
+const axios = require('axios');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
 
 
 app.post('/new-message', function (req, res) {
-    const {message} = req.body
+    const {message} = req.body;
     console.log('Request processing start.');
 
     if (!message || message.text.toLowerCase().indexOf('marco') < 0) {
@@ -25,12 +25,12 @@ app.post('/new-message', function (req, res) {
         text: 'Polo!!'
     })
         .then(response => {
-            console.log('Message posted')
-            res.end('ok')
+            console.log('Message posted');
+            res.end('ok');
         })
         .catch(err => {
-            console.log('Error :', err)
-            res.end('Error :' + err)
+            console.log('Error :', err);
+            res.end('Error :' + err);
         })
 
 });
