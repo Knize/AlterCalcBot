@@ -35,6 +35,6 @@ app.post('/new-message', function (req, res) {
 
 });
 
-app.listen(3000, function () {
+app.listen(process.env.PORT, function () {
     console.log('We are upppp!');
 });
