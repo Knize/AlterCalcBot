@@ -36,5 +36,5 @@ app.post('/new-message', function (req, res) {
 });
 
 app.listen(3000, function () {
-    console.log('We are up!');
+    console.log('We are upppp!');
 });
