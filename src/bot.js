@@ -1,4 +1,4 @@
-const token = '510256795:AAFNtQ5iwkpAvOfPnCVSbOIqlc0CIh_xGoQ';
+const token = require('token')
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+axios.post('https://api.telegram.org/bot' + token + ' /setWebhook?https://frozen-atoll-64089.herokuapp.com/');
 
 app.post('/', function (req, res) {
     const {message} = req.body;
@@ -20,7 +21,7 @@ app.post('/', function (req, res) {
     }
 
     console.log('Sending response');
-    axios.post('https://api.telegram.org/bot510256795:AAFNtQ5iwkpAvOfPnCVSbOIqlc0CIh_xGoQ/sendMessage', {
+    axios.post('https://api.telegram.org/bot' + token + ' /sendMessage', {
         chat_id: message.chat.id,
         text: 'Polo!!'
     })
@@ -36,5 +37,5 @@ app.post('/', function (req, res) {
 });
 
 app.listen(process.env.PORT, function () {
-    console.log('We are upppp!');
+    console.log('We are up!');
 });
