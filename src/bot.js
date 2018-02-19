@@ -12,12 +12,14 @@ app.use(bodyParser.urlencoded({
 
 app.post('/new-message', function (req, res) {
     const {message} = req.body
-
+    console.log('Request processing start.');
 
     if (!message || message.text.toLowerCase().indexOf('marco') < 0) {
+        console.log('Not match');
         return res.end()
     }
 
+    console.log('Sending response');
     axios.post('https://api.telegram.org/bot' + token + '/sendMessage', {
         chat_id: message.chat.id,
         text: 'Polo!!'
