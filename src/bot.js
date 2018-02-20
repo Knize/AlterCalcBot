@@ -28,11 +28,6 @@ app.post('/new-message', function (req, res) {
     const {message} = req.body;
     console.log('Request processing start.');
 
-    if (!message || message.text.toLowerCase().indexOf('marco') < 0) {
-        console.log('Not match');
-        return res.end()
-    }
-
     console.log('Message: ' + message);
     if (message === '/start') {
         console.log('Start');
@@ -67,5 +62,3 @@ app.post('/new-message', function (req, res) {
 app.listen(process.env.PORT, function () {
     console.log('We are up!');
 });
-
-
