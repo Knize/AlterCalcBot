@@ -179,7 +179,10 @@ function newProcessAction(expression, action, chat_id) {
                 if (action === '-') return substituteLastOperand(expression, action);
             }
             if (expression === '-' && action === '+') return '0';
-            if (isNumber(expression)) return expression + action;
+            if (isNumber(expression)) {
+                sessionCache.get(chat_id).lastAction = action;
+                return expression + action;
+            }
             if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1) + action;
             return eval(expression).toString() + action;
         default:
