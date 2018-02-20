@@ -92,7 +92,7 @@ function sendMessage(chatId, text, reply_markup = null, res) {
 
 function answerCallbackQuery(query_id, text, show_alert, res) {
     axios.post('https://api.telegram.org/bot' + telegram_token + '/answerCallbackQuery', {
-        query_id: query_id
+        callback_query_id: query_id
     })
         .then(response => {
             console.log('Query ' + query_id + ' processed');
