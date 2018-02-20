@@ -63,7 +63,7 @@ app.post('/new-message', function (req, res) {
         const {callback_query} = req.body;
         console.log('Callback processing start.');
         console.log('Callback: ' + callback_query.id + '; Inline message id: ' + callback_query.inline_message_id);
-        answerCallbackQuery(callback_query, '', false, res);
+        answerCallbackQuery(callback_query.id, '', false, res);
     }
 
     res.end('ok');
