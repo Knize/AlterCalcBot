@@ -9,59 +9,27 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+class InlineButton {
+    constructor(text){
+        this.text = text;
+        this.callback_data = text;
+    }
+}
+
 function initButtons() {
-    const acButton = {
-        text: 'AC',
-        callback_data: 'AC'
-    };
-    const plusButton = {
-        text: '+',
-        callback_data: '+'
-    };
-    const minusButton = {
-        text: '-',
-        callback_data: '-'
-    };
-    const zeroButton = {
-        text: '0',
-        callback_data: '0'
-    };
-    const oneButton = {
-        text: '1',
-        callback_data: '1'
-    };
-    const twoButton = {
-        text: '2',
-        callback_data: '2'
-    };
-    const threeButton = {
-        text: '3',
-        callback_data: '3'
-    };
-    const fourButton = {
-        text: '4',
-        callback_data: '4'
-    };
-    const fiveButton = {
-        text: '5',
-        callback_data: '5'
-    };
-    const sixButton = {
-        text: '6',
-        callback_data: '6'
-    };
-    const sevenButton = {
-        text: '7',
-        callback_data: '7'
-    };
-    const eightButton = {
-        text: '8',
-        callback_data: '8'
-    };
-    const nineButton = {
-        text: '9',
-        callback_data: '9'
-    };
+    const acButton = new InlineButton('AC');
+    const plusButton = new InlineButton('+');
+    const minusButton = new InlineButton('-');
+    const zeroButton = new InlineButton('0');
+    const oneButton = new InlineButton('1');
+    const twoButton = new InlineButton('2');
+    const threeButton = new InlineButton('3');
+    const fourButton = new InlineButton('4');
+    const fiveButton = new InlineButton('5');
+    const sixButton = new InlineButton('6');
+    const sevenButton = new InlineButton('7');
+    const eightButton = new InlineButton('8');
+    const nineButton = new InlineButton('9');
     return [
         [acButton, plusButton, minusButton],
         [sevenButton, eightButton, nineButton],
