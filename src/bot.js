@@ -25,10 +25,12 @@ class CalcSession {
     }
 }
 
-String.prototype.leftPad = function(size) {
-    var s = String(this);
-    while (s.length < (size || 2)) {s = " " + s;}
-    return s;
+String.prototype.leftPad = function (size) {
+    let s = String(this);
+    while (s.length < (size || 2)) {
+        s = ' ' + s;
+    }
+    return '|' + s;
 }
 
 function initButtons() {
