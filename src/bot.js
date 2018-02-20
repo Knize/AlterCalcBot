@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-const SAME = 'same';
+const NOTHING_CHANGED = 'nothing_changed';
 
 function initButton(text) {
     return {
@@ -80,7 +80,7 @@ app.post('/new-message', function (req, res) {
         const data = callback_query.data;
         const chat_id = callback_query.message.chat.id;
         const result = processAction(oldText, data, chat_id);
-        if (result !== SAME) {
+        if (result !== NOTHING_CHANGED) {
             editMessageText(callback_query, result, res);
         }
     }
@@ -155,7 +155,7 @@ function processAction(expression, action, chat_id) {
             return expression + action;
         default:
             sessionCache.get(chat_id).isResult = false;
-            if (expression === '0' && action === '0') return SAME;
+            if (expression === '0' && action === '0') return NOTHING_CHANGED;
             if (expression === '0') return action;
             return expression + action;
     }
