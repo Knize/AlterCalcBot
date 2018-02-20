@@ -80,9 +80,10 @@ const reply_markup = {
 
 
 app.post('/new-message', function (req, res) {
-
+    console.log('Request processing start.');
     const {callback_query} = req.body;
     const {message} = req.body;
+    console.log(req.body);
     if (callback_query != null) {
         const {callback_query} = req.body;
         console.log('Callback processing start.');
@@ -90,7 +91,6 @@ app.post('/new-message', function (req, res) {
         answerCallbackQuery(callback_query, '', false, res);
     }
     if (message != null) {
-        console.log('Request processing start.');
         console.log('Message: ' + message.text);
         if (message.text === '/start') {
             console.log('Start');
