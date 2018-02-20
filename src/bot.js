@@ -85,7 +85,7 @@ app.post('/new-message', function (req, res) {
         const {callback_query} = req.body;
         console.log('Callback processing start.');
         console.log('Callback: ' + callback_query.id + '; Data: ' + callback_query.data);
-        if(callback_query.data !== ' ') {
+        if (callback_query.data !== ' ') {
             const oldText = strip(callback_query.message.text);
             const data = callback_query.data;
             const chat_id = callback_query.message.chat.id;
@@ -95,7 +95,7 @@ app.post('/new-message', function (req, res) {
                 editMessageText(callback_query, paddedResult, res);
             }
         }
-        answerCallbackQuery(callback_query.id, paddedResult, res);
+        answerCallbackQuery(callback_query.id, '', false, res);
     }
     res.end('ok');
 });
@@ -165,8 +165,8 @@ function processAction(expression, action, chat_id) {
             return '0';
         case isOperator(action):
             if (expression === '0') {
-                if(action === '+') return NOTHING_CHANGED;
-                if(action === '-') return
+                if (action === '+') return NOTHING_CHANGED;
+                if (action === '-') return
             }
             if (isOperator(expression.slice(-1))) return expression.slice(0, expression.length - 1) + action;
             return expression + action;
