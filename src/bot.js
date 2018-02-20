@@ -74,7 +74,7 @@ function initButtons() {
 const keyboard = initButtons();
 
 const reply_markup = {
-    inline_keyboard: keyboard
+    keyboard: keyboard
 };
 
 
