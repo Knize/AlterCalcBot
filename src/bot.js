@@ -56,7 +56,8 @@ app.post('/new-message', function (req, res) {
         console.log('Message: ' + message.text);
         if (message.text === '/start') {
             console.log('Start');
-            sendMessage(message.chat.id, '0', reply_markup, res);
+            const message = sendMessage(message.chat.id, '0', reply_markup, res);
+            console.log(message)
         }
     } else if (callback_query != null) {
         const {callback_query} = req.body;
@@ -74,13 +75,12 @@ app.listen(process.env.PORT, function () {
 
 
 function sendMessage(chatId, text, reply_markup = null, res) {
-    axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
+    return axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: chatId,
         text: text,
         reply_markup: reply_markup
     })
         .then(response => {
-            const message = yield response.data.message;
             console.log('Message ' + message + ' posted');
             res.end('ok');
         })
