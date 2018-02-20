@@ -71,12 +71,7 @@ function initButtons() {
     ];
 }
 
-const keyword = initButtons();
-
-const reply_markup = {
-    keyboard: keyword,
-    resize_keyboard: true
-};
+const inline_keyboard = initButtons();
 
 
 app.post('/new-message', function (req, res) {
@@ -109,7 +104,7 @@ function sendMessage(chatId, text, reply_markup = null, res) {
     axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: chatId,
         text: text,
-        reply_markup: reply_markup
+        inline_keyboard: inline_keyboard
     })
         .then(response => {
             console.log('Message posted');
