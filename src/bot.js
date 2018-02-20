@@ -173,6 +173,7 @@ function newProcessAction(expression, action, chat_id) {
             }
             if (expression === '-' && action === '+') return '0';
             if(isNumber(expression)) return expression + action;
+            if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1) + action;
             return eval(expression).toString() + action;
         default:
             console.log("case: default");
