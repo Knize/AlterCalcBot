@@ -173,6 +173,7 @@ function newProcessAction(expression, action, chat_id) {
             }
             if (expression === '-' && action === '+') return '0';
             sessionCache.get(chat_id).lastAction = action;
+            if(isNumber(expression)) return expression + action;
             return eval(expression).toString();
         default:
             console.log("case: default");
@@ -236,9 +237,27 @@ function substituteLastOperand(expression, action) {
     return expression.slice(0, expression.length - 1) + action;
 }
 
+function isNumber(expression) {
+    return !(expression.includes('+') || expression.includes('-') || expression.includes('*'));
+
+}
+
 function strip(str) {
     const noLine = str.slice(1);
     const result = noLine.trim();
     console.log('Stripped expression: ' + result)
     return result;
+}
+
+function evaluate(operand1, operand2, operator) {
+    switch (operator) {
+        case '+':
+            return operand1 + operand2;
+        case '-':
+            return operand1 - operand2;
+        case '*':
+            return operand1 * operand2;
+        default:
+            return 'NaN'
+    }
 }
