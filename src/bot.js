@@ -109,11 +109,11 @@ function editMessageText(callback_query, text, res) {
     const chat_id = callback_query.message.chat.id;
     axios.post('https://api.telegram.org/bot' + telegram_token + '/editMessageText', {
         chat_id: chat_id,
-        message_id: message_id - 1,
+        message_id: message_id - 2,
         text: text
     })
         .then(response => {
-            console.log('Edit ' + message_id - 1 + ' to text ' + text + ' processed');
+            console.log('Edit ' + message_id - 2 + ' to text ' + text + ' processed');
             answerCallbackQuery(query_id, '', false, res);
             res.end('ok');
         })
