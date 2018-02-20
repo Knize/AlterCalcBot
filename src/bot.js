@@ -166,9 +166,9 @@ function processAction(expression, action, chat_id) {
         case isOperator(action):
             if (expression === '0') {
                 if (action === '+') return NOTHING_CHANGED;
-                if (action === '-') return
+                if (action === '-') return substituteLastOperand(expression, action);
             }
-            if (isOperator(expression.slice(-1))) return expression.slice(0, expression.length - 1) + action;
+            if (lastIsOperator) return expression.slice(0, expression.length - 1) + action;
             return expression + action;
         default:
             if (expression === '0' && action === '0') return NOTHING_CHANGED;
@@ -177,12 +177,25 @@ function processAction(expression, action, chat_id) {
                 sessionCache.get(chat_id).isResult = false;
                 return action;
             }
+            if (lastIsZero(expression)) return substituteLastOperand(expression, action);
             return expression + action;
     }
 }
 
 function isOperator(action) {
     return action === '+' || action === '-';
+}
+
+function lastIsOperator(expression) {
+    return isOperator(expression.slice(-1));
+}
+
+function lastIsZero(expression) {
+    return expression.slice(-1) === '0';
+}
+
+function substituteLastOperand(expression, action) {
+    return expression.slice(0, expression.length - 1) + action;
 }
 
 function strip(str) {
