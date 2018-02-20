@@ -9,6 +9,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+const SAME = 'same';
+
 function initButton(text) {
     return {
         text: text,
@@ -77,7 +79,10 @@ app.post('/new-message', function (req, res) {
         const oldText = callback_query.message.text;
         const data = callback_query.data;
         const chat_id = callback_query.message.chat.id;
-        editMessageText(callback_query, processAction(oldText, data, chat_id), res);
+        const result = processAction(oldText, data, chat_id);
+        if (result !== SAME) {
+            editMessageText(callback_query, result, res);
+        }
     }
     res.end('ok');
 });
@@ -150,6 +155,7 @@ function processAction(expression, action, chat_id) {
             return expression + action;
         default:
             sessionCache.get(chat_id).isResult = false;
+            if (expression === '0' && action === '0') return SAME;
             if (expression === '0') return action;
             return expression + action;
     }
