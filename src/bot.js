@@ -178,5 +178,7 @@ function isOperator(action) {
 
 function strip(str) {
     const noLine = str.slice(1);
-    return noLine.trim();
+    const result = noLine.trim();
+    console.log('Stripped expression: ' + result)
+    return result;
 }
