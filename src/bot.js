@@ -61,7 +61,7 @@ app.post('/new-message', function (req, res) {
     } else if (callback_query != null) {
         const {callback_query} = req.body;
         console.log('Callback processing start.');
-        console.log('Callback: ' + callback_query.id + '; Message: ' + callback_query.message);
+        console.log('Callback: ' + callback_query.id + '; Message: ' + callback_query.message.text);
 
         answerCallbackQuery(callback_query.id, '', false, res);
     }
