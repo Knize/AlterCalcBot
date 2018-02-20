@@ -146,7 +146,7 @@ function processAction(expression, action, chat_id) {
             sessionCache.get(chat_id).isResult = false;
             return '0';
         case isOperator(action):
-            if (isOperator(expression.slice(-1))) return expression.slice(0, length - 2) + action;
+            if (isOperator(expression.slice(-1))) return expression.slice(0, expression.length - 2) + action;
             return expression + action;
         default:
             sessionCache.get(chat_id).isResult = false;
