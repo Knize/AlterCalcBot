@@ -138,16 +138,23 @@ function editMessageText(callback_query, text, res) {
 }
 
 function processAction(expression, action, chat_id) {
-    switch (action) {
-        case '=':
+    switch (true) {
+        case action === '=':
             sessionCache.get(chat_id).isResult = true;
             return eval(expression);
-        case 'AC':
+        case action === 'AC':
             sessionCache.get(chat_id).isResult = false;
             return '0';
+        case isOperator(action):
+            if (isOperator(expression.slice(-1))) return expression.slice(0, length - 2) + action;
+            return expression + action;
         default:
             sessionCache.get(chat_id).isResult = false;
             if (expression === '0') return action;
             return expression + action;
     }
+}
+
+function isOperator(action) {
+    return action === '+' || action === '-';
 }
