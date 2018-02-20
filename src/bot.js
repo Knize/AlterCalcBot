@@ -176,7 +176,7 @@ function newProcessAction(expression, action, chat_id) {
         case isOperator(action):
             console.log("case: isOperator");
             if (expression === '0') {
-                if (action === '+') return NOTHING_CHANGED;
+                if (action === '+' || action === '*') return NOTHING_CHANGED;
                 if (action === '-') return substituteLastOperand(expression, action);
             }
             if (expression === '-' && action === '+') return '0';
