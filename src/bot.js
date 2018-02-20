@@ -80,13 +80,21 @@ const reply_markup = {
 
 
 app.post('/new-message', function (req, res) {
-    const {message} = req.body;
-    console.log('Request processing start.');
 
-    console.log('Message: ' + message.text);
-    if (message.text === '/start') {
-        console.log('Start');
-        sendMessage(message.chat.id, '0', reply_markup, res);
+    const {update} = req.body;
+    if (update.message_id != null) {
+        const {message} = req.body;
+        console.log('Request processing start.');
+        console.log('Message: ' + message.text);
+        if (message.text === '/start') {
+            console.log('Start');
+            sendMessage(message.chat.id, '0', reply_markup, res);
+        }
+    } else if(update.id != null){
+        const {callback_query} = req.body;
+        console.log('Callback processing start.');
+        console.log('Callback: ' + callback_query.id + '; Inline message id: ' + callback_query.inline_message_id);
+        answerCallbackQuery(callback_query, '', false, res);
     }
 
     res.end('ok');
@@ -114,4 +122,22 @@ function sendMessage(chatId, text, reply_markup = null, res) {
         });
 }
 
+function answerCallbackQuery(query_id, text, show_alert, res) {
+    axios.post('https://api.telegram.org/bot' + telegram_token + '/answerCallbackQuery', {
+        query_id: query_id
+    })
+        .then(response => {
+            console.log('Query '+ query_id +' processed');
+            res.end('ok')
+        })
+        .catch(err => {
+            console.log('Error :', err);
+            res.end('Error: ' + err);
+        });
+    
+}
+
+function editMessageText(chat_id, text, message_id) {
+
+}
 
