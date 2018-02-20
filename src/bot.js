@@ -31,36 +31,36 @@ function initButtons() {
         callback_data: '1'
     };
     const twoButton = {
-        text: '1',
-        callback_data: '1'
+        text: '2',
+        callback_data: '2'
     };
     const threeButton = {
-        text: '1',
-        callback_data: '1'
+        text: '3',
+        callback_data: '3'
     };
     const fourButton = {
-        text: '1',
-        callback_data: '1'
+        text: '4',
+        callback_data: '4'
     };
     const fiveButton = {
-        text: '1',
-        callback_data: '1'
+        text: '5',
+        callback_data: '5'
     };
     const sixButton = {
-        text: '1',
-        callback_data: '1'
+        text: '6',
+        callback_data: '6'
     };
     const sevenButton = {
-        text: '1',
-        callback_data: '1'
+        text: '7',
+        callback_data: '7'
     };
     const eightButton = {
-        text: '1',
-        callback_data: '1'
+        text: '8',
+        callback_data: '8'
     };
     const nineButton = {
-        text: '1',
-        callback_data: '1'
+        text: '9',
+        callback_data: '9'
     };
     return [
         [acButton, plusButton, minusButton],
@@ -75,8 +75,7 @@ const keyword = initButtons();
 
 const reply_markup = {
     keyboard: keyword,
-    resize_keyboard: true,
-    one_time_keyboard: true
+    resize_keyboard: true
 };
 
 
