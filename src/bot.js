@@ -109,7 +109,7 @@ function sendMessage(chatId, text, reply_markup = null, res) {
     axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: chatId,
         text: text,
-        inline_keyboard: inline_keyboard
+        inline_keyboard: reply_markup
     })
         .then(response => {
             console.log('Message posted');
