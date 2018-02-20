@@ -33,7 +33,7 @@ app.post('/new-message', function (req, res) {
         console.log('Start');
         axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
             chat_id: message.chat.id,
-            text: 'Polo!!',
+            text: '0',
             reply_markup: reply_markup
         })
             .then(response => {
@@ -44,19 +44,6 @@ app.post('/new-message', function (req, res) {
             });
     }
 
-    console.log('Sending response');
-    axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
-        chat_id: message.chat.id,
-        text: 'Polo!!',
-    })
-        .then(response => {
-            console.log('Message posted');
-            res.end('ok');
-        })
-        .catch(err => {
-            console.log('Error :', err);
-            res.end('Error :' + err);
-        })
 });
 
 app.listen(process.env.PORT, function () {
