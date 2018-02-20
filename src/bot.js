@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-function initButton (text) {
+function initButton(text) {
     return {
         text: text,
         callback_data: text
@@ -61,9 +61,8 @@ app.post('/new-message', function (req, res) {
     } else if (callback_query != null) {
         const {callback_query} = req.body;
         console.log('Callback processing start.');
-        console.log('Callback: ' + callback_query.id + '; Message: ' + callback_query.data);
-
-        answerCallbackQuery(callback_query.id, '', false, res);
+        console.log('Callback: ' + callback_query.id + '; Data: ' + callback_query.data);
+        editMessageText(callback_query, callback_query.data, res);
     }
 
     res.end('ok');
@@ -82,7 +81,7 @@ function sendMessage(chatId, text, reply_markup = null, res) {
     })
         .then(response => {
             console.log('Message posted');
-            res.end('ok')
+            res.end('ok');
         })
         .catch(err => {
             console.log('Error :', err);
@@ -96,16 +95,28 @@ function answerCallbackQuery(query_id, text, show_alert, res) {
     })
         .then(response => {
             console.log('Query ' + query_id + ' processed');
-            res.end('ok')
+            res.end('ok');
         })
         .catch(err => {
             console.log('Error :', err);
             res.end('Error: ' + err);
         });
-
 }
 
-function editMessageText(chat_id, text, message_id) {
-
+function editMessageText(callback_query, text, res) {
+    const message_id = callback_query.message.message_id;
+    const query_id = callback_query.id;
+    axios.post('https://api.telegram.org/bot' + telegram_token + '/answerCallbackQuery', {
+        callback_query_id: query_id
+    })
+        .then(response => {
+            console.log('Edit ' + message_id + ' to text ' + text + ' processed');
+            answerCallbackQuery(callback_query.id, '', false, res);
+            res.end('ok');
+        })
+        .catch(err => {
+            console.log('Error :', err);
+            res.end('Error: ' + err);
+        });
 }
 
