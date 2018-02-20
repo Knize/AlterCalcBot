@@ -71,7 +71,12 @@ function initButtons() {
     ];
 }
 
-const inline_keyboard = initButtons();
+const keyboard = initButtons();
+
+const reply_markup = {
+    inline_keyboard: keyboard,
+    resize_keyboard: true
+};
 
 
 app.post('/new-message', function (req, res) {
@@ -89,7 +94,7 @@ app.post('/new-message', function (req, res) {
         console.log('Message: ' + message.text);
         if (message.text === '/start') {
             console.log('Start');
-            sendMessage(message.chat.id, '0', inline_keyboard, res);
+            sendMessage(message.chat.id, '0', reply_markup, res);
         }
     }
     res.end('ok');
@@ -100,7 +105,7 @@ app.listen(process.env.PORT, function () {
 });
 
 
-function sendMessage(chatId, text, inline_keyboard, res) {
+function sendMessage(chatId, text, reply_markup = null, res) {
     axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: chatId,
         text: text,
