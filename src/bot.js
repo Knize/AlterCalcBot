@@ -85,7 +85,7 @@ app.post('/new-message', function (req, res) {
         const {callback_query} = req.body;
         console.log('Callback processing start.');
         console.log('Callback: ' + callback_query.id + '; Data: ' + callback_query.data);
-        const oldText = callback_query.message.text;
+        const oldText = strip(callback_query.message.text);
         const data = callback_query.data;
         const chat_id = callback_query.message.chat.id;
         const result = processAction(oldText, data, chat_id);
@@ -174,4 +174,9 @@ function processAction(expression, action, chat_id) {
 
 function isOperator(action) {
     return action === '+' || action === '-';
+}
+
+function strip(str) {
+    const noLine = str.slice(1);
+    return noLine.trim();
 }
