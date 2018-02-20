@@ -9,16 +9,72 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-const keyboard = [
-    ['AC', '+', '-'],
-    ['7', '8', '9'],
-    ['4', '5', '6'],
-    ['1', '2', '3'],
-    [' ', '0', ' '],
-];
+function initButtons() {
+    const acButton = {
+        text: 'AC',
+        callback_data: 'AC'
+    };
+    const plusButton = {
+        text: '+',
+        callback_data: '+'
+    };
+    const minusButton = {
+        text: '-',
+        callback_data: '-'
+    };
+    const zeroButton = {
+        text: '0',
+        callback_data: '0'
+    };
+    const oneButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    const twoButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    const threeButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    const fourButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    const fiveButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    const sixButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    const sevenButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    const eightButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    const nineButton = {
+        text: '1',
+        callback_data: '1'
+    };
+    return [
+        [acButton, plusButton, minusButton],
+        [sevenButton, eightButton, nineButton],
+        [fourButton, fiveButton, sixButton],
+        [oneButton, twoButton, threeButton],
+        [' ', zeroButton, ' '],
+    ];
+}
+
+const keyword = initButtons();
 
 const reply_markup = {
-    keyboard: keyboard,
+    keyboard: keyword,
     resize_keyboard: true,
     one_time_keyboard: true
 };
@@ -49,3 +105,4 @@ app.post('/new-message', function (req, res) {
 app.listen(process.env.PORT, function () {
     console.log('We are up!');
 });
+
