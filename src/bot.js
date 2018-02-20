@@ -46,6 +46,8 @@ const reply_markup = {
     inline_keyboard: keyboard
 };
 
+const messadgesIdCache = new Map();
+
 
 app.post('/new-message', function (req, res) {
     console.log('Request processing start.');
@@ -56,6 +58,8 @@ app.post('/new-message', function (req, res) {
         console.log('Message: ' + message.text);
         if (message.text === '/start') {
             console.log('Start');
+            // TODO get sent message id properly
+            messadgesIdCache.set(message.chat.id, message.message_id + 1);
             sendMessage(message.chat.id, '0', reply_markup, res);
         }
     } else if (callback_query != null) {
@@ -109,11 +113,11 @@ function editMessageText(callback_query, text, res) {
     const chat_id = callback_query.message.chat.id;
     axios.post('https://api.telegram.org/bot' + telegram_token + '/editMessageText', {
         chat_id: chat_id,
-        message_id: message_id - 2,
+        message_id: messadgesIdCache.get(chat_id),
         text: text
     })
         .then(response => {
-            console.log('Edit ' + message_id - 2 + ' to text ' + text + ' processed');
+            console.log('Edit ' + messadgesIdCache.get(chat_id) + ' to text ' + text + ' processed');
             answerCallbackQuery(query_id, '', false, res);
             res.end('ok');
         })
