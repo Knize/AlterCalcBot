@@ -114,7 +114,7 @@ function editMessageText(callback_query, text, res) {
     })
         .then(response => {
             console.log('Edit ' + message_id + ' to text ' + text + ' processed');
-            answerCallbackQuery(callback_query.id, '', false, res);
+            answerCallbackQuery(query_id, '', false, res);
             res.end('ok');
         })
         .catch(err => {
