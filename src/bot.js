@@ -261,6 +261,7 @@ function strip(str) {
 }
 
 function evaluate(leftOperand, rightOperand, operator) {
+    console.log('Evaluate: ' + leftOperand + operator + rightOperand);
     switch (operator) {
         case '+':
             return (leftOperand + rightOperand).toString();
