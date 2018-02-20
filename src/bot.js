@@ -136,7 +136,7 @@ function processAction(expression, action) {
         case '=':
             return eval(expression);
         case 'AC':
-            return '';
+            return '0';
         default:
             return expression + action;
     }
