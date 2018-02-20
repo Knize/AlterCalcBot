@@ -30,6 +30,7 @@ function initButtons() {
     const sevenButton = new InlineButton('7');
     const eightButton = new InlineButton('8');
     const nineButton = new InlineButton('9');
+    console.log(zeroButton);
     return [
         [acButton, plusButton, minusButton],
         [sevenButton, eightButton, nineButton],
