@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 const NOTHING_CHANGED = 'nothing_changed';
+const PADDING_WIDTH = 30;
 
 function initButton(text) {
     return {
@@ -31,7 +32,7 @@ String.prototype.leftPad = function (size) {
         s = ' ' + s;
     }
     return '|' + s;
-}
+};
 
 function initButtons() {
     const acButton = initButton('AC');
@@ -78,7 +79,7 @@ app.post('/new-message', function (req, res) {
             console.log('Start');
             // TODO get sent message id properly
             sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
-            sendMessage(message.chat.id, '0'.leftPad(15), reply_markup, res);
+            sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res);
         }
     } else if (callback_query != null) {
         const {callback_query} = req.body;
@@ -88,7 +89,7 @@ app.post('/new-message', function (req, res) {
         const data = callback_query.data;
         const chat_id = callback_query.message.chat.id;
         const result = processAction(oldText, data, chat_id);
-        const paddedResult = result.leftPad(15);
+        const paddedResult = result.leftPad(PADDING_WIDTH);
         if (result !== NOTHING_CHANGED) {
             editMessageText(callback_query, paddedResult, res);
         }
