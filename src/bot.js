@@ -172,7 +172,7 @@ function processAction(expression, action, chat_id) {
                 if (action === '+') return NOTHING_CHANGED;
                 if (action === '-') return substituteLastOperand(expression, action);
             }
-            if (lastIsOperator) return expression.slice(0, expression.length - 1) + action;
+            if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1) + action;
             return expression + action;
         default:
             console.log("case: default");
