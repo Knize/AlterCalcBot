@@ -172,9 +172,8 @@ function newProcessAction(expression, action, chat_id) {
                 if (action === '-') return substituteLastOperand(expression, action);
             }
             if (expression === '-' && action === '+') return '0';
-            sessionCache.get(chat_id).lastAction = action;
             if(isNumber(expression)) return expression + action;
-            return eval(expression).toString();
+            return eval(expression).toString() + action;
         default:
             console.log("case: default");
             if (expression === '0' && action === '0') return NOTHING_CHANGED;
