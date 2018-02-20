@@ -89,6 +89,8 @@ app.post('/new-message', function (req, res) {
         sendMessage(message.chat.id, '0', reply_markup, res);
     }
 
+    res.end('ok');
+
 });
 
 app.listen(process.env.PORT, function () {
