@@ -80,7 +80,7 @@ function sendMessage(chatId, text, reply_markup = null, res) {
         reply_markup: reply_markup
     })
         .then(response => {
-            console.log('Message ' + response.statusCode + ' posted');
+            console.log('Message ' + response.body + ' posted');
             res.end('ok');
         })
         .catch(err => {
