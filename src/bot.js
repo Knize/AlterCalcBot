@@ -165,8 +165,8 @@ function newProcessAction(expression, action, chat_id) {
             const lastAction = sessionCache.get(chat_id).lastAction;
             const lastOperand = sessionCache.get(chat_id).lastOperand;
             if (lastAction != null && lastOperand != null) {
-                console.log("Call evaluate with: " + expression + lastAction + lastOperand);
-                return evaluate(expression, lastOperand, lastAction)
+                console.log("Call evaluate with: " + eval(expression) + lastAction + lastOperand);
+                return evaluate(eval(expression), lastOperand, lastAction)
             }
             return eval(expression).toString();
         case action === 'AC':
