@@ -170,6 +170,7 @@ function newProcessAction(expression, action, chat_id) {
             return eval(expression).toString();
         case action === 'AC':
             console.log("case: AC");
+            cleanSession(chat_id);
             return '0';
         case isOperator(action):
             console.log("case: isOperator");
@@ -189,6 +190,7 @@ function newProcessAction(expression, action, chat_id) {
                 sessionCache.get(chat_id).isResult = false;
                 return action;
             }
+            sessionCache.get(chat_id).lastOperand = action;
             return expression + action;
     }
 }
@@ -266,4 +268,9 @@ function evaluate(leftOperand, rightOperand, operator) {
         default:
             return 'NaN'
     }
+}
+
+function cleanSession(chat_id) {
+    sessionCache.get(chat_id).lastAction = null;
+    sessionCache.get(chat_id).lastOperand = null;
 }
