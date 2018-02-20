@@ -66,7 +66,9 @@ app.post('/new-message', function (req, res) {
         const {callback_query} = req.body;
         console.log('Callback processing start.');
         console.log('Callback: ' + callback_query.id + '; Data: ' + callback_query.data);
-        editMessageText(callback_query, callback_query.data, res);
+        const oldText = callback_query.message.text;
+        const data = callback_query.data;
+        editMessageText(callback_query, processAction(oldText, data), res);
     }
 
     res.end('ok');
@@ -128,3 +130,13 @@ function editMessageText(callback_query, text, res) {
         });
 }
 
+function processAction(expression, action) {
+    switch (action) {
+        case '=':
+            return eval(expression);
+        case 'AC':
+            return '';
+        default:
+            return expression + action;
+    }
+}
