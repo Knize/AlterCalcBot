@@ -74,13 +74,14 @@ app.listen(process.env.PORT, function () {
 
 
 function sendMessage(chatId, text, reply_markup = null, res) {
-    axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
+    var message = axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: chatId,
         text: text,
         reply_markup: reply_markup
-    })
+    });
+    message
         .then(response => {
-            console.log('Message ' + response.body + ' posted');
+            console.log('Message ' + message + ' posted');
             res.end('ok');
         })
         .catch(err => {
