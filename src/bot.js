@@ -168,10 +168,12 @@ function processAction(expression, action, chat_id) {
             return '0';
         case isOperator(action):
             console.log("case: isOperator");
+            sessionCache.get(chat_id).isResult = false;
             if (expression === '0') {
                 if (action === '+') return NOTHING_CHANGED;
                 if (action === '-') return substituteLastOperand(expression, action);
             }
+            if(expression === '-' && action === '+') return '0';
             if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1) + action;
             return expression + action;
         default:
