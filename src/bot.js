@@ -114,7 +114,8 @@ function editMessageText(callback_query, text, res) {
     axios.post('https://api.telegram.org/bot' + telegram_token + '/editMessageText', {
         chat_id: chat_id,
         message_id: messadgesIdCache.get(chat_id),
-        text: text
+        text: text,
+        reply_markup: reply_markup
     })
         .then(response => {
             console.log('Edit ' + messadgesIdCache.get(chat_id) + ' to text ' + text + ' processed');
