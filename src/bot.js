@@ -19,7 +19,7 @@ app.post('/new-message', function (req, res) {
     }
 
     console.log('Sending response');
-    axios.post('https://api.telegram.org/bot' + telegram_token + ' /sendMessage', {
+    axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: message.chat.id,
         text: 'Polo!!'
     })
