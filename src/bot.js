@@ -23,6 +23,7 @@ class CalcSession {
     constructor(message_id) {
         this.message_id = message_id;
         this.isResult = false;
+        this.lastAction = null;
     }
 }
 
@@ -49,13 +50,13 @@ function initButtons() {
     const eightButton = initButton('8');
     const nineButton = initButton('9');
     const equalsButton = initButton('=');
-    const emptyButton = initButton(' ');
+    const multiplyButton = initButton('*');
     return [
-        [acButton, plusButton, minusButton],
+        [multiplyButton, plusButton, minusButton],
         [sevenButton, eightButton, nineButton],
         [fourButton, fiveButton, sixButton],
         [oneButton, twoButton, threeButton],
-        [emptyButton, zeroButton, equalsButton]
+        [acButton, zeroButton, equalsButton]
     ];
 }
 
@@ -89,7 +90,7 @@ app.post('/new-message', function (req, res) {
             const oldText = strip(callback_query.message.text);
             const data = callback_query.data;
             const chat_id = callback_query.message.chat.id;
-            const result = processAction(oldText, data, chat_id);
+            const result = newProcessAction(oldText, data, chat_id);
             const paddedResult = result.leftPad(PADDING_WIDTH);
             if (result !== NOTHING_CHANGED) {
                 editMessageText(callback_query, paddedResult, res);
@@ -155,6 +156,36 @@ function editMessageText(callback_query, text, res) {
         });
 }
 
+function newProcessAction(expression, action, chat_id) {
+    console.log("Process action");
+    switch (true) {
+        case action === '=':
+            console.log("case: =");
+            return eval(expression).toString();
+        case action === 'AC':
+            console.log("case: AC");
+            return '0';
+        case isOperator(action):
+            console.log("case: isOperator");
+            if (expression === '0') {
+                if (action === '+') return NOTHING_CHANGED;
+                if (action === '-') return substituteLastOperand(expression, action);
+            }
+            if (expression === '-' && action === '+') return '0';
+            sessionCache.get(chat_id).lastAction = action;
+            return eval(expression).toString();
+        default:
+            console.log("case: default");
+            if (expression === '0' && action === '0') return NOTHING_CHANGED;
+            if (expression === '0') return action;
+            if (sessionCache.get(chat_id).isResult) {
+                sessionCache.get(chat_id).isResult = false;
+                return action;
+            }
+            return expression + action;
+    }
+}
+
 function processAction(expression, action, chat_id) {
     console.log("Process action");
     switch (true) {
@@ -168,12 +199,12 @@ function processAction(expression, action, chat_id) {
             return '0';
         case isOperator(action):
             console.log("case: isOperator");
-            sessionCache.get(chat_id).isResult = false;
+            sessionCache.get(chat_id).isResult = true;
             if (expression === '0') {
                 if (action === '+') return NOTHING_CHANGED;
                 if (action === '-') return substituteLastOperand(expression, action);
             }
-            if(expression === '-' && action === '+') return '0';
+            if (expression === '-' && action === '+') return '0';
             if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1) + action;
             return expression + action;
         default:
@@ -190,7 +221,7 @@ function processAction(expression, action, chat_id) {
 }
 
 function isOperator(action) {
-    return action === '+' || action === '-';
+    return action === '+' || action === '-' || action === '*';
 }
 
 function lastIsOperator(expression) {
