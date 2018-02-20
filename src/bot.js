@@ -56,8 +56,11 @@ app.post('/new-message', function (req, res) {
         console.log('Message: ' + message.text);
         if (message.text === '/start') {
             console.log('Start');
-            const sentMessage = sendMessage(message.chat.id, '0', reply_markup, res);
-            console.log(sentMessage)
+            sendMessage(message.chat.id, '0', reply_markup, res)
+                .then(sentMessage => {
+                    console.log(sentMessage);
+                });
+
         }
     } else if (callback_query != null) {
         const {callback_query} = req.body;
