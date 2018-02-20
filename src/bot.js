@@ -83,6 +83,7 @@ app.post('/new-message', function (req, res) {
         if (result !== NOTHING_CHANGED) {
             editMessageText(callback_query, result, res);
         }
+        answerCallbackQuery(callback_query.id, result, res);
     }
     res.end('ok');
 });
