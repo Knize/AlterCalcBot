@@ -24,6 +24,7 @@ class CalcSession {
         this.message_id = message_id;
         this.isResult = false;
         this.lastAction = null;
+        this.lastOperand = null;
     }
 }
 
@@ -161,6 +162,11 @@ function newProcessAction(expression, action, chat_id) {
     switch (true) {
         case action === '=':
             console.log("case: =");
+            const lastAction = sessionCache.get(chat_id).lastAction;
+            const lastOperand = sessionCache.get(chat_id).lastOperand;
+            if (lastAction != null && lastOperand != null) {
+                evaluate(expression)
+            }
             return eval(expression).toString();
         case action === 'AC':
             console.log("case: AC");
@@ -172,7 +178,7 @@ function newProcessAction(expression, action, chat_id) {
                 if (action === '-') return substituteLastOperand(expression, action);
             }
             if (expression === '-' && action === '+') return '0';
-            if(isNumber(expression)) return expression + action;
+            if (isNumber(expression)) return expression + action;
             if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1) + action;
             return eval(expression).toString() + action;
         default:
@@ -249,14 +255,14 @@ function strip(str) {
     return result;
 }
 
-function evaluate(operand1, operand2, operator) {
+function evaluate(leftOperand, rightOperand, operator) {
     switch (operator) {
         case '+':
-            return operand1 + operand2;
+            return leftOperand + rightOperand;
         case '-':
-            return operand1 - operand2;
+            return leftOperand - rightOperand;
         case '*':
-            return operand1 * operand2;
+            return leftOperand * rightOperand;
         default:
             return 'NaN'
     }
