@@ -165,9 +165,12 @@ function processAction(expression, action, chat_id) {
             if (isOperator(expression.slice(-1))) return expression.slice(0, expression.length - 1) + action;
             return expression + action;
         default:
-            sessionCache.get(chat_id).isResult = false;
             if (expression === '0' && action === '0') return NOTHING_CHANGED;
             if (expression === '0') return action;
+            if(sessionCache.get(chat_id).isResult){
+                sessionCache.get(chat_id).isResult = false;
+                return action;
+            }
             return expression + action;
     }
 }
