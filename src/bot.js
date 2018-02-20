@@ -31,7 +31,6 @@ function initButtons() {
     const eightButton = initButton('8');
     const nineButton = initButton('9');
     const emptyButton = initButton(' ')
-    console.log(zeroButton);
     return [
         [acButton, plusButton, minusButton],
         [sevenButton, eightButton, nineButton],
@@ -62,7 +61,8 @@ app.post('/new-message', function (req, res) {
     } else if (callback_query != null) {
         const {callback_query} = req.body;
         console.log('Callback processing start.');
-        console.log('Callback: ' + callback_query.id + '; Inline message id: ' + callback_query.inline_message_id);
+        console.log('Callback: ' + callback_query.id + '; Message: ' + callback_query.message);
+
         answerCallbackQuery(callback_query.id, '', false, res);
     }
 
