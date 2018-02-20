@@ -94,9 +94,11 @@ app.post('/new-message', function (req, res) {
         })
             .then(response => {
                 console.log('Message posted');
+                res.end('ok')
             })
             .catch(err => {
                 console.log('Error :', err);
+                res.end('Error: ' + err);
             });
     }
 
