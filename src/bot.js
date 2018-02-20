@@ -16,6 +16,13 @@ function initButton(text) {
     }
 }
 
+class CalcSession {
+    constructor(message_id) {
+        this.message_id = message_id;
+        this.isResult = false;
+    }
+}
+
 function initButtons() {
     const acButton = initButton('AC');
     const plusButton = initButton('+');
@@ -47,7 +54,7 @@ const reply_markup = {
     inline_keyboard: keyboard
 };
 
-const messadgesIdCache = new Map();
+const sessionCache = new Map();
 
 
 app.post('/new-message', function (req, res) {
@@ -60,7 +67,7 @@ app.post('/new-message', function (req, res) {
         if (message.text === '/start') {
             console.log('Start');
             // TODO get sent message id properly
-            messadgesIdCache.set(message.chat.id, message.message_id + 1);
+            messadgesIdCache.set(message.chat.id, new CalcSession(message.message_id + 1));
             sendMessage(message.chat.id, '0', reply_markup, res);
         }
     } else if (callback_query != null) {
@@ -69,9 +76,9 @@ app.post('/new-message', function (req, res) {
         console.log('Callback: ' + callback_query.id + '; Data: ' + callback_query.data);
         const oldText = callback_query.message.text;
         const data = callback_query.data;
-        editMessageText(callback_query, processAction(oldText, data), res);
+        const chat_id = callback_query.message.chat.id;
+        editMessageText(callback_query, processAction(oldText, data, chat_id), res);
     }
-
     res.end('ok');
 });
 
@@ -111,7 +118,6 @@ function answerCallbackQuery(query_id, text, show_alert, res) {
 }
 
 function editMessageText(callback_query, text, res) {
-    const message_id = callback_query.message.message_id;
     const query_id = callback_query.id;
     const chat_id = callback_query.message.chat.id;
     axios.post('https://api.telegram.org/bot' + telegram_token + '/editMessageText', {
@@ -131,13 +137,17 @@ function editMessageText(callback_query, text, res) {
         });
 }
 
-function processAction(expression, action) {
+function processAction(expression, action, chat_id) {
     switch (action) {
         case '=':
+            sessionCache.get(chat_id).isResult = true;
             return eval(expression);
         case 'AC':
+            sessionCache.get(chat_id).isResult = false;
             return '0';
         default:
+            sessionCache.get(chat_id).isResult = false;
+            if (expression === '0') return action;
             return expression + action;
     }
 }
