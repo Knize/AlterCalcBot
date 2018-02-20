@@ -156,14 +156,18 @@ function editMessageText(callback_query, text, res) {
 }
 
 function processAction(expression, action, chat_id) {
+    console.log("Process action");
     switch (true) {
         case action === '=':
+            console.log("case: =");
             sessionCache.get(chat_id).isResult = true;
             return eval(expression).toString();
         case action === 'AC':
+            console.log("case: AC");
             sessionCache.get(chat_id).isResult = false;
             return '0';
         case isOperator(action):
+            console.log("case: isOperator");
             if (expression === '0') {
                 if (action === '+') return NOTHING_CHANGED;
                 if (action === '-') return substituteLastOperand(expression, action);
@@ -171,6 +175,7 @@ function processAction(expression, action, chat_id) {
             if (lastIsOperator) return expression.slice(0, expression.length - 1) + action;
             return expression + action;
         default:
+            console.log("case: default");
             if (expression === '0' && action === '0') return NOTHING_CHANGED;
             if (expression === '0') return action;
             if (sessionCache.get(chat_id).isResult) {
