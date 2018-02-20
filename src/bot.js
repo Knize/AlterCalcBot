@@ -83,6 +83,12 @@ app.post('/new-message', function (req, res) {
 
     const {callback_query} = req.body;
     const {message} = req.body;
+    if (callback_query != null) {
+        const {callback_query} = req.body;
+        console.log('Callback processing start.');
+        console.log('Callback: ' + callback_query.id + '; Inline message id: ' + callback_query.inline_message_id);
+        answerCallbackQuery(callback_query, '', false, res);
+    }
     if (message != null) {
         console.log('Request processing start.');
         console.log('Message: ' + message.text);
@@ -90,11 +96,6 @@ app.post('/new-message', function (req, res) {
             console.log('Start');
             sendMessage(message.chat.id, '0', reply_markup, res);
         }
-    } else if (callback_query != null) {
-        const {callback_query} = req.body;
-        console.log('Callback processing start.');
-        console.log('Callback: ' + callback_query.id + '; Inline message id: ' + callback_query.inline_message_id);
-        answerCallbackQuery(callback_query, '', false, res);
     }
     res.end('ok');
 });
