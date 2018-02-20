@@ -30,13 +30,14 @@ function initButtons() {
     const sevenButton = initButton('7');
     const eightButton = initButton('8');
     const nineButton = initButton('9');
+    const emptyButton = initButton(' ')
     console.log(zeroButton);
     return [
         [acButton, plusButton, minusButton],
         [sevenButton, eightButton, nineButton],
         [fourButton, fiveButton, sixButton],
         [oneButton, twoButton, threeButton],
-        [' ', zeroButton, ' '],
+        [emptyButton, zeroButton, emptyButton]
     ];
 }
 
