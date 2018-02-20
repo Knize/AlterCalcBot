@@ -23,17 +23,6 @@ const reply_markup = {
     one_time_keyboard: true
 };
 
-axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
-    chat_id: message.chat.id,
-    text: 'Polo!!',
-    reply_markup: reply_markup
-})
-    .then(response => {
-        console.log('Message posted');
-    })
-    .catch(err => {
-        console.log('Error :', err);
-    });
 
 
 app.post('/new-message', function (req, res) {
@@ -43,6 +32,21 @@ app.post('/new-message', function (req, res) {
     if (!message || message.text.toLowerCase().indexOf('marco') < 0) {
         console.log('Not match');
         return res.end()
+    }
+
+    if(message === '/start'){
+        console.log('Start');
+        axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
+            chat_id: message.chat.id,
+            text: 'Polo!!',
+            reply_markup: reply_markup
+        })
+            .then(response => {
+                console.log('Message posted');
+            })
+            .catch(err => {
+                console.log('Error :', err);
+            });
     }
 
     console.log('Sending response');
