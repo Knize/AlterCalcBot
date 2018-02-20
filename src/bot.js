@@ -28,8 +28,8 @@ app.post('/new-message', function (req, res) {
     const {message} = req.body;
     console.log('Request processing start.');
 
-    console.log('Message: ' + message);
-    if (message === '/start') {
+    console.log('Message: ' + message.text);
+    if (message.text === '/start') {
         console.log('Start');
         axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
             chat_id: message.chat.id,
