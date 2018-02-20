@@ -79,8 +79,8 @@ function sendMessage(chatId, text, reply_markup = null, res) {
         text: text,
         reply_markup: reply_markup
     })
-        .then(response => {
-            console.log('Message posted');
+        .then(message => {
+            console.log('Message ' + message.message_id + ' posted');
             res.end('ok');
         })
         .catch(err => {
