@@ -157,7 +157,7 @@ function processAction(expression, action, chat_id) {
     switch (true) {
         case action === '=':
             sessionCache.get(chat_id).isResult = true;
-            return eval(expression);
+            return eval(expression).toString();
         case action === 'AC':
             sessionCache.get(chat_id).isResult = false;
             return '0';
