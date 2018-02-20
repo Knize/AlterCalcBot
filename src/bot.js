@@ -86,19 +86,7 @@ app.post('/new-message', function (req, res) {
     console.log('Message: ' + message.text);
     if (message.text === '/start') {
         console.log('Start');
-        axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
-            chat_id: message.chat.id,
-            text: '0',
-            reply_markup: reply_markup
-        })
-            .then(response => {
-                console.log('Message posted');
-                res.end('ok')
-            })
-            .catch(err => {
-                console.log('Error :', err);
-                res.end('Error: ' + err);
-            });
+        sendMessage(message.chat.id, '0', reply_markup, res);
     }
 
 });
@@ -106,4 +94,22 @@ app.post('/new-message', function (req, res) {
 app.listen(process.env.PORT, function () {
     console.log('We are up!');
 });
+
+
+function sendMessage(chatId, text, reply_markup = null, res) {
+    axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
+        chat_id: chatId,
+        text: text,
+        reply_markup: reply_markup
+    })
+        .then(response => {
+            console.log('Message posted');
+            res.end('ok')
+        })
+        .catch(err => {
+            console.log('Error :', err);
+            res.end('Error: ' + err);
+        });
+}
+
 
