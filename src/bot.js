@@ -263,11 +263,11 @@ function strip(str) {
 function evaluate(leftOperand, rightOperand, operator) {
     switch (operator) {
         case '+':
-            return leftOperand + rightOperand;
+            return (leftOperand + rightOperand).toString();
         case '-':
-            return leftOperand - rightOperand;
+            return (leftOperand - rightOperand).toString();
         case '*':
-            return leftOperand * rightOperand;
+            return (leftOperand * rightOperand).toString();
         default:
             return 'NaN'
     }
