@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 const NOTHING_CHANGED = 'nothing_changed';
-const PADDING_WIDTH = 30;
+const PADDING_WIDTH = 50;
 
 function initButton(text) {
     return {
