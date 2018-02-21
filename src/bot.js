@@ -169,6 +169,7 @@ function newProcessAction(expression, action, chat_id) {
                 return evaluate(eval(expression), lastOperand, lastAction)
             }
             if (isNumber(expression)) return NOTHING_CHANGED;
+            sessionCache.get(chat_id).lastOperand = getLastOperand(expression);
             return eval(expression).toString();
         case action === 'AC':
             console.log("case: AC");
@@ -187,6 +188,7 @@ function newProcessAction(expression, action, chat_id) {
                 return expression + action;
             }
             if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1) + action;
+            if(!isNumber(expression)) sessionCache.get(chat_id).lastOperand = getLastOperand(expression);
             return eval(expression).toString() + action;
         default:
             console.log("case: default");
@@ -196,7 +198,6 @@ function newProcessAction(expression, action, chat_id) {
                 sessionCache.get(chat_id).isResult = false;
                 return action;
             }
-            sessionCache.get(chat_id).lastOperand = action;
             return expression + action;
     }
 }
@@ -246,4 +247,9 @@ function evaluate(leftOperand, rightOperand, operator) {
 function cleanSession(chat_id) {
     sessionCache.get(chat_id).lastAction = null;
     sessionCache.get(chat_id).lastOperand = null;
+}
+
+function getLastOperand(expression) {
+    const numbers = expression.match(/\d+/g).map(Number);
+    return numbers[numbers.length - 1];
 }
