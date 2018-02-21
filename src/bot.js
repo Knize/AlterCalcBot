@@ -197,7 +197,9 @@ function lastIsOperator(expression) {
 }
 
 function lastOperandIsZero(expression) {
-    return getLastOperand(expression) === '0';
+    const last = getLastOperand(expression);
+    console.log(last);
+    return last === '0';
 }
 
 function isNumber(expression) {
