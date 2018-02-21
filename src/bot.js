@@ -183,6 +183,7 @@ function newProcessAction(expression, action, chat_id) {
             console.log("case: default");
             if (expression === '0' && action === '0') return NOTHING_CHANGED;
             if (expression === '0') return action;
+            if(lastIsZero(expression)) return expression.slice(0, expression.length - 1) + action;
             return expression + action;
     }
 }
@@ -193,6 +194,10 @@ function isOperator(action) {
 
 function lastIsOperator(expression) {
     return isOperator(expression.slice(-1));
+}
+
+function lastIsZero(expression) {
+    return expression.slice(-1) === '0';
 }
 
 function isNumber(expression) {
