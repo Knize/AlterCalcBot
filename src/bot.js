@@ -97,7 +97,7 @@ app.post('/new-message', function (req, res) {
                         return value;
                     });
                     cache = null;
-                    console.log('Message ' + sentMessage.data.message_id + ' posted');
+                    console.log('Message ' + sentMessage.data + ' posted');
                     res.end('ok');
                 })
                 .catch(err => {
