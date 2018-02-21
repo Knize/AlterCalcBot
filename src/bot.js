@@ -76,27 +76,8 @@ app.post('/new-message', function (req, res) {
         if (message.text === '/start') {
             console.log('Start');
             sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
-            const ret = axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
-                chat_id: message.chat.id,
-                text: '0'.leftPad(PADDING_WIDTH),
-                reply_markup: reply_markup
-            });
-            console.log('axios.post returns: ' + ret);
-            ret
+            sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup)
                 .then(sentMessage => {
-                    let cache = [];
-                    const string = JSON.stringify(sentMessage.data, function (key, value) {
-                        if (typeof value === 'object' && value !== null) {
-                            if (cache.indexOf(value) !== -1) {
-                                // Circular reference found, discard key
-                                return;
-                            }
-                            // Store value in our collection
-                            cache.push(value);
-                        }
-                        return value;
-                    });
-                    cache = null;
                     console.log('Message ' + sentMessage.data.result.message_id + ' posted');
                     res.end('ok');
                 })
@@ -129,7 +110,7 @@ app.listen(process.env.PORT, function () {
 });
 
 
-function sendMessage(chatId, text, reply_markup = null, res) {
+function sendMessage(chatId, text, reply_markup) {
     const ret = axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: chatId,
         text: text,
