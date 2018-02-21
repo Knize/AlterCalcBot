@@ -57,7 +57,7 @@ function initButtons() {
         [sevenButton, eightButton, nineButton],
         [fourButton, fiveButton, sixButton],
         [oneButton, twoButton, threeButton],
-        [acButton, zeroButton, equalsButton]
+        [acButton, zeroButton]
     ];
 }
 
@@ -114,7 +114,7 @@ function sendMessage(chatId, text, reply_markup = null, res) {
         reply_markup: reply_markup
     })
         .then(response => {
-            console.log('Message ' + ' posted');
+            console.log('Message ' + response + ' posted');
             res.end('ok');
         })
         .catch(err => {
@@ -160,18 +160,6 @@ function editMessageText(callback_query, text, res) {
 function newProcessAction(expression, action, chat_id) {
     console.log("Process action");
     switch (true) {
-        case action === '=':
-            console.log("case: =");
-            const lastAction = sessionCache.get(chat_id).lastAction;
-            const lastOperand = sessionCache.get(chat_id).lastOperand;
-            if (lastAction != null && lastOperand != null) {
-                console.log("Call evaluate with: " + eval(expression) + lastAction + lastOperand);
-                return evaluate(eval(expression), lastOperand, lastAction)
-            }
-            if (isNumber(expression)) return NOTHING_CHANGED;
-            if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1);
-            sessionCache.get(chat_id).lastOperand = getLastOperand(expression);
-            return eval(expression).toString();
         case action === 'AC':
             console.log("case: AC");
             cleanSession(chat_id);
@@ -180,15 +168,17 @@ function newProcessAction(expression, action, chat_id) {
             console.log("case: isOperator");
             if (expression === '0') {
                 if (action === '+' || action === '*') return NOTHING_CHANGED;
-                if (action === '-') return substituteLastOperand(expression, action);
+                if (action === '-') return '-';
             }
             if (expression === '-' && (action === '+' || action === '*')) return '0';
             console.log('lastAction = ' + action);
+            const oldAction = sessionCache.get(chat_id).lastAction;
             sessionCache.get(chat_id).lastAction = action;
             if (isNumber(expression)) {
                 return expression + action;
             }
             if (lastIsOperator(expression)) {
+                if (action === '-') sessionCache.get(chat_id).lastAction = oldAction;
                 if (expression.slice(-1) !== '*') return expression.slice(0, expression.length - 1) + action;
                 else return expression + action;
             }
@@ -204,6 +194,10 @@ function newProcessAction(expression, action, chat_id) {
             }
             return expression + action;
     }
+}
+
+function hasUnaryMinus(expression) {
+
 }
 
 function isOperator(action) {
