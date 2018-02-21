@@ -77,7 +77,6 @@ app.post('/new-message', function (req, res) {
             console.log('Start');
             sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
             sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res);
-
         }
     } else if (callback_query != null) {
         const {callback_query} = req.body;
@@ -180,6 +179,7 @@ function newProcessAction(expression, action, chat_id) {
             console.log("case: default");
             if (expression === '0' && action === '0') return NOTHING_CHANGED;
             if (expression === '0') return action;
+            if(expression === '-') return expression + action;
             if (lastOperandIsZero(expression)) {
                 console.log('Expr: ' + expression);
                 console.log('Sliced expr: ' + expression.slice(0, expression.length - 1));
