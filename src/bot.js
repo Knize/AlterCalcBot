@@ -75,17 +75,9 @@ app.post('/new-message', function (req, res) {
         console.log('Message: ' + message.text);
         if (message.text === '/start') {
             console.log('Start');
-            // TODO get sent message id properly
             sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
-            sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res)
-                .then(sentMessage => {
-                    console.log('Message ' + sentMessage.message_id + ' posted');
-                    res.end('ok');
-                })
-                .catch(err => {
-                    console.log('Error :', err);
-                    res.end('Error: ' + err);
-                });
+            sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res);
+
         }
     } else if (callback_query != null) {
         const {callback_query} = req.body;
@@ -116,7 +108,15 @@ function sendMessage(chatId, text, reply_markup = null, res) {
         chat_id: chatId,
         text: text,
         reply_markup: reply_markup
-    });
+    })
+        .then(sentMessage => {
+            console.log('Message ' + sentMessage.message_id + ' posted');
+            res.end('ok');
+        })
+        .catch(err => {
+            console.log('Error :', err);
+            res.end('Error: ' + err);
+        });
 }
 
 function answerCallbackQuery(query_id, text, show_alert, res) {
