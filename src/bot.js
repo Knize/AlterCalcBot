@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 const NOTHING_CHANGED = 'nothing_changed';
-const PADDING_WIDTH = 45;
+const PADDING_WIDTH = 50;
 
 function initButton(text) {
     return {
@@ -168,6 +168,7 @@ function newProcessAction(expression, action, chat_id) {
                 console.log("Call evaluate with: " + eval(expression) + lastAction + lastOperand);
                 return evaluate(eval(expression), lastOperand, lastAction)
             }
+            if (isNumber(expression)) return NOTHING_CHANGED;
             return eval(expression).toString();
         case action === 'AC':
             console.log("case: AC");
@@ -196,40 +197,6 @@ function newProcessAction(expression, action, chat_id) {
                 return action;
             }
             sessionCache.get(chat_id).lastOperand = action;
-            return expression + action;
-    }
-}
-
-function processAction(expression, action, chat_id) {
-    console.log("Process action");
-    switch (true) {
-        case action === '=':
-            console.log("case: =");
-            sessionCache.get(chat_id).isResult = true;
-            return eval(expression).toString();
-        case action === 'AC':
-            console.log("case: AC");
-            sessionCache.get(chat_id).isResult = false;
-            return '0';
-        case isOperator(action):
-            console.log("case: isOperator");
-            sessionCache.get(chat_id).isResult = true;
-            if (expression === '0') {
-                if (action === '+') return NOTHING_CHANGED;
-                if (action === '-') return substituteLastOperand(expression, action);
-            }
-            if (expression === '-' && action === '+') return '0';
-            if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1) + action;
-            return expression + action;
-        default:
-            console.log("case: default");
-            if (expression === '0' && action === '0') return NOTHING_CHANGED;
-            if (expression === '0') return action;
-            if (sessionCache.get(chat_id).isResult) {
-                sessionCache.get(chat_id).isResult = false;
-                return action;
-            }
-            if (lastIsZero(expression)) return substituteLastOperand(expression, action);
             return expression + action;
     }
 }
