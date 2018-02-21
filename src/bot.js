@@ -75,11 +75,10 @@ app.post('/new-message', function (req, res) {
         console.log('Message: ' + message.text);
         if (message.text === '/start') {
             console.log('Start');
-            // TODO get sent message id properly
             sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
             sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res)
                 .then(sentMessage => {
-                    console.log('Message ' + sentMessage + ' posted');
+                    console.log('Message ' + sentMessage.message_id + ' posted');
                     res.end('ok');
                 })
                 .catch(err => {
