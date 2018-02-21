@@ -78,7 +78,7 @@ app.post('/new-message', function (req, res) {
             sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
             sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res)
                 .then(sentMessage => {
-                    console.log('Message ' + sentMessage.message_id + ' posted');
+                    console.log('Message ' + sentMessage.message + ' posted');
                     res.end('ok');
                 })
                 .catch(err => {
