@@ -80,6 +80,7 @@ app.post('/new-message', function (req, res) {
             sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res)
                 .then(sentMessage => {
                     console.log('Message ' + sentMessage + ' posted');
+                    throw Error();
                     res.end('ok');
                 })
                 .catch(err => {
