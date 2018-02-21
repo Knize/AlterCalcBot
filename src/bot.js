@@ -75,10 +75,10 @@ app.post('/new-message', function (req, res) {
         console.log('Message: ' + message.text);
         if (message.text === '/start') {
             console.log('Start');
-            sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
             sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup)
                 .then(sentMessage => {
                     console.log('Message ' + sentMessage.data.result.message_id + ' posted');
+                    sessionCache.set(message.chat.id, new CalcSession(sentMessage.data.result.message_id));
                     res.end('ok');
                 })
                 .catch(err => {
@@ -111,13 +111,11 @@ app.listen(process.env.PORT, function () {
 
 
 function sendMessage(chatId, text, reply_markup) {
-    const ret = axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
+    return axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: chatId,
         text: text,
         reply_markup: reply_markup
     });
-    console.log('axios.post returns: ' + ret);
-    return ret;
 }
 
 function answerCallbackQuery(query_id, text, show_alert, res) {
