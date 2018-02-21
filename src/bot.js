@@ -76,11 +76,13 @@ app.post('/new-message', function (req, res) {
         if (message.text === '/start') {
             console.log('Start');
             sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
-            axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
+            const ret = axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
                 chat_id: message.chat.id,
                 text: '0'.leftPad(PADDING_WIDTH),
                 reply_markup: reply_markup
-            })
+            });
+            console.log('axios.post returns: ' + ret);
+            ret
                 .then(sentMessage => {
                     console.log('Message ' + sentMessage.message_id + ' posted');
                     res.end('ok');
