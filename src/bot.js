@@ -50,7 +50,6 @@ function initButtons() {
     const sevenButton = initButton('7');
     const eightButton = initButton('8');
     const nineButton = initButton('9');
-    const equalsButton = initButton('=');
     const multiplyButton = initButton('*');
     return [
         [multiplyButton, plusButton, minusButton],
@@ -172,32 +171,20 @@ function newProcessAction(expression, action, chat_id) {
             }
             if (expression === '-' && (action === '+' || action === '*')) return '0';
             console.log('lastAction = ' + action);
-            const oldAction = sessionCache.get(chat_id).lastAction;
-            sessionCache.get(chat_id).lastAction = action;
             if (isNumber(expression)) {
                 return expression + action;
             }
             if (lastIsOperator(expression)) {
-                if (action === '-') sessionCache.get(chat_id).lastAction = oldAction;
                 if (expression.slice(-1) !== '*') return expression.slice(0, expression.length - 1) + action;
                 else return expression + action;
             }
-            if (!isNumber(expression)) sessionCache.get(chat_id).lastOperand = getLastOperand(expression);
             return eval(expression).toString() + action;
         default:
             console.log("case: default");
             if (expression === '0' && action === '0') return NOTHING_CHANGED;
             if (expression === '0') return action;
-            if (sessionCache.get(chat_id).isResult) {
-                sessionCache.get(chat_id).isResult = false;
-                return action;
-            }
             return expression + action;
     }
-}
-
-function hasUnaryMinus(expression) {
-
 }
 
 function isOperator(action) {
@@ -206,14 +193,6 @@ function isOperator(action) {
 
 function lastIsOperator(expression) {
     return isOperator(expression.slice(-1));
-}
-
-function lastIsZero(expression) {
-    return expression.slice(-1) === '0';
-}
-
-function substituteLastOperand(expression, action) {
-    return expression.slice(0, expression.length - 1) + action;
 }
 
 function isNumber(expression) {
@@ -226,20 +205,6 @@ function strip(str) {
     const result = noLine.trim();
     console.log('Stripped expression: ' + result)
     return result;
-}
-
-function evaluate(leftOperand, rightOperand, operator) {
-    console.log('Evaluate: ' + leftOperand + operator + rightOperand);
-    switch (operator) {
-        case '+':
-            return (leftOperand + rightOperand).toString();
-        case '-':
-            return (leftOperand - rightOperand).toString();
-        case '*':
-            return (leftOperand * rightOperand).toString();
-        default:
-            return 'NaN'
-    }
 }
 
 function cleanSession(chat_id) {
