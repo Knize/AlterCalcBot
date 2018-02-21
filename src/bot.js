@@ -76,11 +76,11 @@ app.post('/new-message', function (req, res) {
         if (message.text === '/start') {
             console.log('Start');
             sessionCache.set(message.chat.id, new CalcSession(message.message_id + 1));
-            sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res)
-                .then(sentMessage => {
-                    console.log('Message ' + sentMessage.message + ' posted');
-                    res.end('ok');
-                })
+            const promise = sendMessage(message.chat.id, '0'.leftPad(PADDING_WIDTH), reply_markup, res);
+            promise.then(sentMessage => {
+                console.log('Message ' + sentMessage.message + ' posted');
+                res.end('ok');
+            })
                 .catch(err => {
                     console.log('Error :', err);
                     res.end('Error: ' + err);
