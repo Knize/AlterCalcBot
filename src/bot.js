@@ -190,7 +190,7 @@ function newProcessAction(expression, action, chat_id) {
             }
             if (lastIsOperator(expression)) {
                 if (expression.slice(-1) !== '*') return expression.slice(0, expression.length - 1) + action;
-                else return eval(expression + action).toString()
+                else return expression + action;
             }
             if (!isNumber(expression)) sessionCache.get(chat_id).lastOperand = getLastOperand(expression);
             return eval(expression).toString() + action;
