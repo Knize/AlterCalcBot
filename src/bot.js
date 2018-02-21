@@ -225,6 +225,6 @@ function cleanSession(chat_id) {
 }
 
 function getLastOperand(expression) {
-    const numbers = expression.match(/\d+/g).map(Number);
+    const numbers = expression.match(/\d+/g).map(String);
     return numbers[numbers.length - 1];
 }
