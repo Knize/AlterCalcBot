@@ -85,7 +85,7 @@ app.post('/new-message', function (req, res) {
             ret
                 .then(sentMessage => {
                     let cache = [];
-                    const string = JSON.stringify(sentMessage.data, function(key, value) {
+                    const string = JSON.stringify(sentMessage.data, function (key, value) {
                         if (typeof value === 'object' && value !== null) {
                             if (cache.indexOf(value) !== -1) {
                                 // Circular reference found, discard key
@@ -97,7 +97,7 @@ app.post('/new-message', function (req, res) {
                         return value;
                     });
                     cache = null;
-                    console.log('Message ' + string + ' posted');
+                    console.log('Message ' + sentMessage.data.result.message_id + ' posted');
                     res.end('ok');
                 })
                 .catch(err => {
