@@ -169,7 +169,7 @@ function newProcessAction(expression, action, chat_id) {
                 return evaluate(eval(expression), lastOperand, lastAction)
             }
             if (isNumber(expression)) return NOTHING_CHANGED;
-            if(lastIsOperator(expression)) return expression.slice(0, expression.length - 1);
+            if (lastIsOperator(expression)) return expression.slice(0, expression.length - 1);
             sessionCache.get(chat_id).lastOperand = getLastOperand(expression);
             return eval(expression).toString();
         case action === 'AC':
@@ -182,7 +182,7 @@ function newProcessAction(expression, action, chat_id) {
                 if (action === '+' || action === '*') return NOTHING_CHANGED;
                 if (action === '-') return substituteLastOperand(expression, action);
             }
-            if (expression === '-' && action === '+') return '0';
+            if (expression === '-' && (action === '+' || action === '*')) return '0';
             console.log('lastAction = ' + action);
             sessionCache.get(chat_id).lastAction = action;
             if (isNumber(expression)) {
