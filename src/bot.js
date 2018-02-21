@@ -84,7 +84,20 @@ app.post('/new-message', function (req, res) {
             console.log('axios.post returns: ' + ret);
             ret
                 .then(sentMessage => {
-                    console.log('Message ' + sentMessage + ' posted');
+                    var cache = [];
+                    const string = JSON.stringify(sentMessage, function(key, value) {
+                        if (typeof value === 'object' && value !== null) {
+                            if (cache.indexOf(value) !== -1) {
+                                // Circular reference found, discard key
+                                return;
+                            }
+                            // Store value in our collection
+                            cache.push(value);
+                        }
+                        return value;
+                    });
+                    cache = null;
+                    console.log('Message ' + string + ' posted');
                     res.end('ok');
                 })
                 .catch(err => {
