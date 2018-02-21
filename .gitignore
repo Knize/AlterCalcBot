@@ -7,4 +7,3 @@
 .idea/watcherTasks.xml
 .idea/workspace.xml
 node_modules/
-/src/telegram_token.js
