@@ -84,7 +84,7 @@ app.post('/new-message', function (req, res) {
             console.log('axios.post returns: ' + ret);
             ret
                 .then(sentMessage => {
-                    console.log('Message ' + sentMessage.message_id + ' posted');
+                    console.log('Message ' + sentMessage + ' posted');
                     res.end('ok');
                 })
                 .catch(err => {
