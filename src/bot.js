@@ -111,11 +111,13 @@ app.listen(process.env.PORT, function () {
 
 
 function sendMessage(chatId, text, reply_markup = null, res) {
-    return axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
+    const ret = axios.post('https://api.telegram.org/bot' + telegram_token + '/sendMessage', {
         chat_id: chatId,
         text: text,
         reply_markup: reply_markup
     });
+    console.log('axios.post returns: ' + ret);
+    return ret;
 }
 
 function answerCallbackQuery(query_id, text, show_alert, res) {
@@ -179,7 +181,7 @@ function newProcessAction(expression, action, chat_id) {
             console.log("case: default");
             if (expression === '0' && action === '0') return NOTHING_CHANGED;
             if (expression === '0') return action;
-            if(expression === '-') return expression + action;
+            if (expression === '-') return expression + action;
             if (lastOperandIsZero(expression)) {
                 console.log('Expr: ' + expression);
                 console.log('Sliced expr: ' + expression.slice(0, expression.length - 1));
